@@ -20,6 +20,7 @@ describe('Order service tests', () => {
     expect(order.cpf).toBe(validCPF);
     expect(order.description).toBe(description);
     expect(order.items).toEqual(products);
+    expect(order.discountRate).toBe(0);
   });
   it("given an error from CPF service when creating instance shouldn't create a new order", () => {
     const given = class implements ICPFService {
