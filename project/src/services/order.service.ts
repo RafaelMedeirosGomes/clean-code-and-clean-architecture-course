@@ -1,15 +1,44 @@
-import ICPF from './cpf.interface';
+import ICPFService, { CPF } from './cpf.interface';
 import IOrder from './order.interface';
-import productInterface from './product.interface';
+import IProduct from './product.interface';
 
 export default class OrderService implements IOrder {
-  get cpf(): ICPF {
-    throw new Error('Not implemented');
+  private _cpf: CPF;
+
+  constructor(
+    CPFService: new (...args: any[]) => ICPFService,
+    cpf: string,
+    private _description: string,
+    private _items: IProduct[],
+    private _discountRate: number = 0,
+  ) {
+    this._cpf = new CPFService(cpf).getCPF();
   }
+
+  get cpf(): CPF {
+    return this._cpf;
+  }
+
   get description(): string {
-    throw new Error('Not implemented');
+    return this._description;
   }
-  get items(): productInterface[] {
-    throw new Error('Not implemented');
+
+  get items(): IProduct[] {
+    return this._items;
+  }
+
+  get discountRate(): number {
+    return this._discountRate;
+  }
+
+  get totalPrice(): number {
+    const originalPrice =
+      this._items.reduce<number>(
+        (acc, { quantity, price }) => acc + Math.floor(100 * price) * quantity,
+        0,
+      ) / 100;
+    const discountedPrice =
+      Math.floor(100 * originalPrice * (1 - this._discountRate)) / 100;
+    return discountedPrice;
   }
 }
