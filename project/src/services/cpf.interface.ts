@@ -1,5 +1,5 @@
 export type CPF = string;
 
-export default interface ICPF {
+export default interface ICPFService {
   getCPF(): CPF;
 }

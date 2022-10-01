@@ -1,6 +1,6 @@
-import ICPF, { CPF } from './cpf.interface';
+import ICPFService, { CPF } from './cpf.interface';
 
-export default class CPFService implements ICPF {
+export default class CPFService implements ICPFService {
   getCPF(): CPF {
     return this.cpf;
   }
